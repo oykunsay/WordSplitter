@@ -10,7 +10,6 @@ public class Trie {
 		public boolean endOfWord;
 		
 		public void insert(String s) {
-		//	
 		}
 		
 		public boolean contains(String s) {
