@@ -11,29 +11,32 @@ public class DatabaseOperations {
 	Connection con = conn.connDb();
 	Statement statement = null;
 	PreparedStatement preparedStatement = null;
+	
 
 	public void insertWordCount(HashMap<String, Integer> map) throws SQLException {
 		Iterator<String> wordIterator = map.keySet().iterator();
-		String sql = ("INSERT INTO words" + "(count, word)" + "VALUES (?,?)");
-		statement = con.createStatement();
-		preparedStatement = con.prepareStatement(sql);
+		
+
 		while (wordIterator.hasNext()) {
 			String key = wordIterator.next();
+
+			statement = con.createStatement();
 			ResultSet rs = statement.executeQuery("SELECT * FROM words WHERE word='" + key + "'");
-			String query = "UPDATE words SET count= ? WHERE word = ?";
-			preparedStatement.setInt(1, map.get(key));
-			preparedStatement.setString(2, key);
-			preparedStatement.executeUpdate();
-			while (rs.next()) {
-				preparedStatement = con.prepareStatement(query);
+			if (rs.next()) {
 				int oldCount = rs.getInt(1);
-				int newCount = oldCount + map.get(key);
-				preparedStatement.setInt(1, newCount);
+				PreparedStatement ps = con.prepareStatement("UPDATE words SET count= ? WHERE word = ?");
+				int newCount =  oldCount +  map.get(key);
+				ps.setInt(1, newCount);
+				ps.setString(2, key);
+				ps.executeUpdate();
+			}else{
+				preparedStatement = con.prepareStatement("INSERT INTO words" + "(count, word)" + "VALUES (?,?)");
+				preparedStatement.setInt(1, map.get(key));
 				preparedStatement.setString(2, key);
 				preparedStatement.executeUpdate();
-			}
-
+			 
 		}
+	}
 	}
 
 	public int wordCount() {

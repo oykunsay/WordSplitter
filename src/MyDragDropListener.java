@@ -17,6 +17,7 @@ public class MyDragDropListener implements DropTargetListener {
 	DatabaseOperations dbOper = new DatabaseOperations();
 	String myFile = "/Users/oykuunsay/Desktop/dictionary.txt";
 	Trie dictionary = new Trie();
+	String str;
 
 	public void drop(DropTargetDropEvent event) {
 
@@ -34,7 +35,7 @@ public class MyDragDropListener implements DropTargetListener {
 						Splitting splitter = new Splitting(dictionary);
 
 						BufferedReader br = new BufferedReader(new FileReader(filepath));
-						String str = br.readLine();
+						str = br.readLine();
 						str = splitter.split(str);
 
 						if (str != null) {

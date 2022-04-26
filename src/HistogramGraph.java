@@ -4,6 +4,10 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JFrame;
@@ -12,15 +16,17 @@ import javax.swing.JScrollPane;
 
 public class HistogramGraph {
 	DatabaseOperations dbOper = new DatabaseOperations();
+	DBConnection conn = new DBConnection();
+	Connection con = conn.connDb();
 
 	HistogramGraph() {
-		int width = 3;
-		int height = 3;
 		int a = dbOper.wordCount();
+		int width = a;
+		int height = a;
 		int[][] data = new int[width][height];
 		for (int c = 0; c < height; c++) {
 			for (int r = 0; r < width; r++) {
-				data[c][r] = (int) (a * Math.random());
+				data[c][r] = a * 10;
 			}
 		}
 		Map<Integer, Integer> mapHistory = new HashMap<Integer, Integer>();
