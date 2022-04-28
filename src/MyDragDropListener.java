@@ -82,7 +82,11 @@ public class MyDragDropListener implements DropTargetListener {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				new HistogramGraph();
+				try {
+					new HistogramGraph();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		event.dropComplete(true);
